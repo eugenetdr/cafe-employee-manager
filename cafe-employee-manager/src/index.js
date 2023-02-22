@@ -1,20 +1,21 @@
 import React from 'react';
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import store from './app/store'
 import { Provider } from 'react-redux'
-import Layout from "./views/Layout";
-import Cafes from "./views/Cafes";
-import Employees from "./views/Employees";
+import store from './app/store'
 import AddEditCafe from "./views/AddEditCafe";
 import AddEditEmployee from "./views/AddEditEmployee";
+import Cafes from "./views/Cafes";
+import Employees from "./views/Employees";
+import Layout from "./views/Layout";
+import './index.css';
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Cafes />} />
+          <Route path="cafes" element={<Cafes />} />
           <Route path="employees" element={<Employees />} />
           <Route path="addCafe" element={<AddEditCafe />} />
           <Route path="editCafe" element={<AddEditCafe />} />
