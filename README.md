@@ -60,7 +60,7 @@ source venv/bin/activate
 // install the libraries
 python -m pip install -r requirements.txt
 ```
-Now that we have the libraries and dependencies installed, we can go ahead and run the Flask server. If you encounter errors, you may check below for some solutions that may be applicable to you
+Now that we have the libraries and dependencies installed, we can go ahead and run the Flask server.
 ```
 python flask_server.py
 ```
@@ -99,10 +99,6 @@ webpack compiled successfully
 ```
 
 Congrats! You are running the app successfully now with the backend linked. Feel free to create more cafes and employees. 
-
-## Installation Errors
-
-
 
 ## Justifications
 
