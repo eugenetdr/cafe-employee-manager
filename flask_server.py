@@ -10,7 +10,7 @@ db = mysql.connector.connect(
     host="localhost",
     user="root",
     password="",
-    database="cafe"
+    database="cafeEmployeeManager"
 )
 db_cursor = db.cursor(dictionary=True)
 db_cursor.execute("SET SESSION MAX_EXECUTION_TIME=500;")

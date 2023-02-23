@@ -43,6 +43,7 @@ The tables have been created, and there is data in the database for the project!
 ### Set up Flask Server
 We first create the virtual environment to store all the packages, so as to not mess up other installed libraries. Then, we install all the necessary libraries based on `requirements.txt`
 ```
+
 // create the virtual environment
 
 // UNIX/macOS
@@ -60,7 +61,16 @@ source venv/bin/activate
 // install the libraries
 python -m pip install -r requirements.txt
 ```
-Now that we have the libraries and dependencies installed, we can go ahead and run the Flask server.
+Now that we have the libraries and dependencies installed, we can go ahead and run the Flask server. Edit the username and password for your MySQL connection in `flask_server.py`
+```
+db = mysql.connector.connect(
+    host="localhost",
+    user="<insert username here>",
+    password="<insert password here>",
+    database="cafeEmployeeManager"
+)
+```
+Run the server
 ```
 python flask_server.py
 ```
@@ -74,7 +84,7 @@ Press CTRL+C to quit
 ```
 
 ### Set up ReactJS app
-With Node and npm installed, we can go ahead and install the dependencies for the app.
+Open a new terminal. With Node and npm installed, we can go ahead and install the dependencies for the app.
 ```
 cd cafe-employee-manager
 npm i
@@ -124,8 +134,16 @@ DELIMITER;
 ### Separation of methods in Flask (e.g. `PUT`, `POST`, `DELETE`)
 These methods could have been merged into one function since they use the same endpoint, but for clarity of the code, they are separated into individual functions.
 
+### Placeholders in SQL queries inside Flask
+This is a safety feature of the library `mysql-connector-python` to prevent malicious attempts such as SQL injections. 
+
+### Server side filtering VS Client side filtering of tables
+An efficient method of filtering a table would be to filter it on the frontend, a.k.a client side filtering. This reduces the need for an API call to perform the filter. However, since one of the project's requirement is to have an API `GET` endpoint with the optional param `location` to filter the database for values that belong to the location. For that param to not go to waste, the filter on the Cafe page queries the database again for the data with location based on the filter. The upside to this is that the data will always be accurate as of what is in the database.
+
+### Limiting the locations to regions
+One requirement of the project is to have free input using a usable textbox for the cafe's location. This does not make much sense, since there is a filter to filter the location, and may end up having inaccurate data (flase negatives) when using the filter. Hence, the locations have been limited to regions, and the use of dropdowns instead of a textbox. (i.e. `North`, `South`, `East`, `West`, `Central`)
+  - Suppose we have cafes A, B, C, D with locations `'North'`, `'north'`, `'North '`, and `'NORTH'` respectively. They are all meant to be returned when using the location filter `North` but instead only A will be returned. One way to improve this is to do data cleaning before the filtering, such as converting all characters to lowercase and stripping off whitespaces followed by filtering `north`
+  - Suppose the location of the cafes are the actual addresses of the cafes. This renders the filter useless as each filter will only return one item. Even if the filter is done by road names, generally, it is unlikely to have common occurences of multiple related cafes along the same road.
+
 ### Form Validation
 If you inspect the codes, you will realise that all the validation of the forms are done, and only done on client side (i.e. frontend). Reason being it is much faster and it prevents redundant API calls. That being said, it is a reasonable assumption that once validated, whatever that is sent to the API should be able to be inserted into database with no issues. Should there be a concern, server side validation can be implemented as a safety and to post a callback on to verify the status.
-
-### Placeholders in SQL queries
-This is a safety feature of the library `mysql-connector-python` to prevent malicious attempts such as SQL injections. 
